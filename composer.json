@@ -1,0 +1,26 @@
+{
+  "name": "alex-kalanis/redis-wrapper",
+  "description": "PHP wrapper for questioning Redis as file storage",
+  "keywords": [],
+  "license": "BSD 3-Clause",
+  "type": "project",
+  "require": {
+    "php": ">=7.2.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~6.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "RedisWrapper\\": "src/"
+    }
+  },
+  "suggest": {
+    "ext-redis": "Direct php module for connection to your Redis server",
+    "predis/predis": "External library for connecting your Redis cluster"
+  },
+  "scripts": {
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
