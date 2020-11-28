@@ -2,7 +2,9 @@
 
 namespace RedisWrapper\PredisWrapper;
 
+
 use Predis;
+
 
 /**
  * Trait for add Predis library into the classes

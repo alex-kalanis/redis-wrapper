@@ -22,10 +22,6 @@ Use Redis records as they were files. You can use either Redis module for PHP or
 (Refer to [Composer Documentation](https://github.com/composer/composer/blob/master/doc/00-intro.md#introduction) if you are not
 familiar with composer)
 
-# Major changes
-
- - Version 1 was initial
-
 # Usages
 
 Just only initialize wrapper with your Redis instance.
@@ -52,3 +48,5 @@ Then for both:
     file_get_contents('redis://any/key/in/redis/storage');
     file_put_contents('redis://another/key/in/storage', 'add something');
 ```
+
+For using storage just look onto kv_storage readme.
