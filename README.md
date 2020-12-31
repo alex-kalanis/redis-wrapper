@@ -8,14 +8,8 @@ Use Redis records as they were files. You can use either Redis module for PHP or
 ```json
 {
     "require": {
-        "alex-kalanis/redis-wrapper": "dev-master"
-    },
-    "repositories": [
-        {
-            "type": "http",
-            "url":  "https://github.com/alex-kalanis/redis-wrapper.git"
-        }
-    ]
+        "alex-kalanis/redis-wrapper": "1.0"
+    }
 }
 ```
 

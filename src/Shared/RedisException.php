@@ -1,6 +1,7 @@
 <?php
 
-namespace RedisWrapper\Shared;
+namespace kalanis\RedisWrapper\Shared;
+
 
 /**
  * Exceptions thrown during the run

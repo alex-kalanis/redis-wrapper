@@ -1,8 +1,10 @@
 <?php
 
-namespace RedisWrapper\PredisWrapper;
+namespace kalanis\RedisWrapper\PredisWrapper;
 
-use RedisWrapper\Shared;
+
+use kalanis\RedisWrapper\Shared;
+
 
 /**
  * Wrapper to plug Redis info into PHP - files part

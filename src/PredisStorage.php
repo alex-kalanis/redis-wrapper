@@ -4,7 +4,7 @@ namespace RedisWrapper;
 
 
 use kalanis\kw_storage\Interfaces\IStorage;
-use RedisWrapper\PredisWrapper\TPredis;
+use kalanis\RedisWrapper\PredisWrapper\TPredis;
 use Traversable;
 
 

@@ -1,8 +1,10 @@
 <?php
 
-namespace RedisWrapper;
+namespace kalanis\RedisWrapper;
+
 
 use Redis;
+
 
 /**
  * Wrapper to plug Redis into PHP - Redis extension

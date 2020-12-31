@@ -4,8 +4,8 @@ namespace RedisWrapper;
 
 
 use kalanis\kw_storage\Interfaces\IStorage;
+use kalanis\RedisWrapper\RedisWrapper\TRedis;
 use RedisException;
-use RedisWrapper\RedisWrapper\TRedis;
 use Traversable;
 
 

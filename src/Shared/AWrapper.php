@@ -1,6 +1,7 @@
 <?php
 
-namespace RedisWrapper\Shared;
+namespace kalanis\RedisWrapper\Shared;
+
 
 /**
  * Wrapper to plug Redis into PHP - abstract

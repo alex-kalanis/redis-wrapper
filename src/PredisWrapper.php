@@ -1,8 +1,10 @@
 <?php
 
-namespace RedisWrapper;
+namespace kalanis\RedisWrapper;
+
 
 use Predis;
+
 
 /**
  * Wrapper to plug Redis into PHP - Predis cluster library

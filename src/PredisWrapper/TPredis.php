@@ -1,6 +1,6 @@
 <?php
 
-namespace RedisWrapper\PredisWrapper;
+namespace kalanis\RedisWrapper\PredisWrapper;
 
 
 use Predis;

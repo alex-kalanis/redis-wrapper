@@ -1,9 +1,10 @@
 <?php
 
-namespace RedisWrapper\Shared;
+namespace kalanis\RedisWrapper\Shared;
+
 
 /**
- * Wrapper to plug FSP info into PHP - directory part
+ * Wrapper to plug Redis info into PHP - directory part
  */
 abstract class AOperations
 {

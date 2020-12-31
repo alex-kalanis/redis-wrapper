@@ -1,6 +1,6 @@
 <?php
 
-namespace RedisWrapper\RedisWrapper;
+namespace kalanis\RedisWrapper\RedisWrapper;
 
 use Redis;
 

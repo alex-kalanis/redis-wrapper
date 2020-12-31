@@ -1,18 +1,23 @@
 {
   "name": "alex-kalanis/redis-wrapper",
   "description": "PHP wrapper for questioning Redis as file storage",
-  "keywords": [],
-  "license": "BSD 3-Clause",
-  "type": "project",
+  "keywords": [
+    "redis",
+    "predis",
+    "wrapper",
+    "wrappers",
+    "storage"
+  ],
+  "license": "BSD-3-Clause",
+  "type": "library",
   "require": {
     "php": ">=7.2.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "~6.0"
   },
   "autoload": {
     "psr-4": {
-      "RedisWrapper\\": "src/"
+      "kalanis\\RedisWrapper\\": "src/"
     }
   },
   "suggest": {
