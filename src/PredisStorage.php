@@ -8,6 +8,11 @@ use kalanis\RedisWrapper\PredisWrapper\TPredis;
 use Traversable;
 
 
+/**
+ * Class PredisStorage
+ * @package RedisWrapper
+ * Storing content in Predis where there is Storage interface
+ */
 class PredisStorage implements IStorage
 {
     use TPredis;
@@ -22,8 +27,7 @@ class PredisStorage implements IStorage
 
     public function exists(string $key): bool
     {
-        // cannot call exists() - get on non-existing key returns false
-        return (false !== $this->redis->get($key));
+        return (0 < $this->redis->exists($key));
     }
 
     public function load(string $key): string
@@ -47,16 +51,7 @@ class PredisStorage implements IStorage
 
     public function lookup(string $key): Traversable
     {
-        $iterator = NULL; // initialize iterator
-        while ($arr_keys = $this->redis->scan($iterator, [
-            'match' => $key . '*',
-        ])) {
-            foreach ($arr_keys as $str_key) {
-                if (!empty($str_key)) {
-                    yield $str_key;
-                }
-            }
-        }
+        return new \Predis\Collection\Iterator\Keyspace($this->redis, $key . '*');
     }
 
     public function increment(string $key): bool

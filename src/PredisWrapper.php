@@ -7,6 +7,8 @@ use Predis;
 
 
 /**
+ * Class PredisWrapper
+ * @package kalanis\RedisWrapper
  * Wrapper to plug Redis into PHP - Predis cluster library
  *
  * Usage:

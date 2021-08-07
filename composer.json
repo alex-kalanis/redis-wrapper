@@ -21,7 +21,7 @@
     }
   },
   "suggest": {
-    "ext-redis": "Direct php module for connection to your Redis server",
+    "ext-redis": "Direct php library for connection to your Redis server",
     "predis/predis": "External library for connecting your Redis cluster",
     "alex-kalanis/kw_storage": "Universal storage libraries"
   },

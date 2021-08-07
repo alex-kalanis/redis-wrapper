@@ -4,6 +4,8 @@ namespace kalanis\RedisWrapper\Shared;
 
 
 /**
+ * Class AOperations
+ * @package kalanis\RedisWrapper\Shared
  * Wrapper to plug Redis info into PHP - directory part
  */
 abstract class AOperations

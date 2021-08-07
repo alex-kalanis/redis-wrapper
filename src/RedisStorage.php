@@ -5,11 +5,15 @@ namespace RedisWrapper;
 
 use kalanis\kw_storage\Interfaces\IStorage;
 use kalanis\RedisWrapper\RedisWrapper\TRedis;
-use RedisException;
 use Traversable;
 
 
-class Redis implements IStorage
+/**
+ * Class RedisStorage
+ * @package RedisWrapper
+ * Storing content in Redis where there is Storage interface
+ */
+class RedisStorage implements IStorage
 {
     use TRedis;
 
@@ -18,12 +22,7 @@ class Redis implements IStorage
 
     public function check(string $key): bool
     {
-        try {
-            $this->redis->ping();
-            return true;
-        } catch (RedisException $ex) {
-            return false;
-        }
+        return 'PONG' == (string)$this->redis->ping();
     }
 
     public function exists(string $key): bool
@@ -39,7 +38,7 @@ class Redis implements IStorage
 
     public function save(string $key, $data, ?int $timeout = null): bool
     {
-        return boolval($this->redis->set($key, $data, intval($timeout)));
+        return boolval($this->redis->set($key, $data, $timeout));
     }
 
     public function remove(string $key): bool

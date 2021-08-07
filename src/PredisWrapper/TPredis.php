@@ -7,6 +7,8 @@ use Predis;
 
 
 /**
+ * Trait TPredis
+ * @package kalanis\RedisWrapper\PredisWrapper
  * Trait for add Predis library into the classes
  */
 trait TPredis

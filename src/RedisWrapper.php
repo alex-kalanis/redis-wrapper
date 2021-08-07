@@ -7,6 +7,8 @@ use Redis;
 
 
 /**
+ * Class RedisWrapper
+ * @package kalanis\RedisWrapper
  * Wrapper to plug Redis into PHP - Redis extension
  *
  * Usage:

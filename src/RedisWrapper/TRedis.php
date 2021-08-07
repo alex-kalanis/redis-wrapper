@@ -2,9 +2,13 @@
 
 namespace kalanis\RedisWrapper\RedisWrapper;
 
+
 use Redis;
 
+
 /**
+ * Trait TRedis
+ * @package kalanis\RedisWrapper\RedisWrapper
  * Trait for add Redis extension connector into the classes
  */
 trait TRedis
