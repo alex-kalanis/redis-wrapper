@@ -3,7 +3,7 @@
 namespace RedisWrapper;
 
 
-use kalanis\kw_storage\Interfaces\IStorage;
+use kalanis\kw_storage\Interfaces\ITarget;
 use kalanis\RedisWrapper\PredisWrapper\TPredis;
 use Traversable;
 
@@ -13,7 +13,7 @@ use Traversable;
  * @package RedisWrapper
  * Storing content in Predis where there is Storage interface
  */
-class PredisStorage implements IStorage
+class PredisStorage implements ITarget
 {
     use TPredis;
 
