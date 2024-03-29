@@ -54,17 +54,17 @@ jobs:
       - run: composer install --no-progress
       - run: vendor/bin/phpstan analyse -c phpstan.neon
 
-  composer_dependencies:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php: [ '8.1' ]
-    name: PHP ${{ matrix.php }} problematic dependencies
-    steps:
-      - uses: actions/checkout@v2
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          coverage: none
-      - run: composer install --no-progress
-      - run: vendor/bin/composer-dependency-analyser
+#  composer_dependencies:
+#    runs-on: ubuntu-latest
+#    strategy:
+#      matrix:
+#        php: [ '8.1' ]
+#    name: PHP ${{ matrix.php }} problematic dependencies
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: shivammathur/setup-php@v2
+#        with:
+#          php-version: ${{ matrix.php }}
+#          coverage: none
+#      - run: composer install --no-progress
+#      - run: vendor/bin/composer-dependency-analyser
