@@ -13,8 +13,8 @@ class AWrapper
     /** @var resource */
     public $context;
 
-    protected ?Keys $keyQuery = null;
-    protected ?Data $fileQuery = null;
+    protected ?Keys $keyQuery;
+    protected ?Data $fileQuery;
     protected bool $showErrors = true;
 
     public function dir_closedir(): bool
