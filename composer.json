@@ -12,11 +12,11 @@
   "type": "library",
   "require": {
     "alex-kalanis/kw_storage": ">=5 <6",
+    "predis/predis": "^2.2",
     "php": ">=7.4.0"
   },
   "require-dev": {
     "ext-redis": "*",
-    "predis/predis": "^2.2",
     "shipmonk/composer-dependency-analyser": "^1.4",
     "phpstan/phpstan": "^1.0",
     "phpstan/phpstan-phpunit": "^1.0",

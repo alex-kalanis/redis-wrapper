@@ -58,8 +58,8 @@ abstract class Data extends AOperations
      * @param Keys $libDir
      * @param string $path
      * @param string $mode
-     * @return bool
      * @throws RedisException
+     * @return bool
      */
     public function stream_open(Keys $libDir, string $path, string $mode): bool
     {
@@ -76,8 +76,8 @@ abstract class Data extends AOperations
 
     /**
      * @param string $mode
-     * @return bool
      * @throws RedisException
+     * @return bool
      */
     protected function parseWriteMode(string $mode): bool
     {
@@ -107,7 +107,7 @@ abstract class Data extends AOperations
     {
         switch ($whence) {
             case SEEK_SET:
-                if ($offset < $this->size && $offset >= 0) {
+                if ($offset < $this->size && 0 <= $offset) {
                     $this->position = $offset;
                     return true;
                 } else {
@@ -115,7 +115,7 @@ abstract class Data extends AOperations
                 }
 
             case SEEK_CUR:
-                if ($offset >= 0) {
+                if (0 <= $offset) {
                     $this->position += $offset;
                     return true;
                 } else {
@@ -123,7 +123,7 @@ abstract class Data extends AOperations
                 }
 
             case SEEK_END:
-                if ($this->size + $offset >= 0) {
+                if ($this->size + 0 <= $offset) {
                     $this->position = $this->size + $offset;
                     return true;
                 } else {
@@ -142,8 +142,8 @@ abstract class Data extends AOperations
 
     /**
      * @param Keys $libDir
-     * @return array<int, string|int>
      * @throws RedisException
+     * @return array<int, string|int>
      */
     public function stream_stat(Keys $libDir): array
     {
@@ -162,8 +162,8 @@ abstract class Data extends AOperations
 
     /**
      * @param string $data
-     * @return int
      * @throws RedisException
+     * @return int
      */
     public function stream_write(string $data): int
     {

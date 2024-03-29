@@ -90,8 +90,8 @@ abstract class Keys extends AOperations
     /**
      * @param string $path
      * @param int $flags
-     * @return array<int, string|int>
      * @throws RedisException
+     * @return array<int, string|int>
      */
     public function stats(string $path, int $flags): array
     {
