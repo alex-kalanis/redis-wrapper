@@ -17,12 +17,11 @@ class RedisStorage implements ITarget
 {
     use TRedis;
 
-    /** @var int */
-    protected $timeout = 0;
+    protected int $timeout = 0;
 
     public function check(string $key): bool
     {
-        return 'PONG' == (string)$this->redis->ping();
+        return 'PONG' == strval($this->redis->ping());
     }
 
     public function exists(string $key): bool
@@ -33,12 +32,16 @@ class RedisStorage implements ITarget
 
     public function load(string $key): string
     {
-        return $this->get($key);
+        return strval($this->get($key));
     }
 
-    public function save(string $key, $data, ?int $timeout = null): bool
+    public function save(string $key, string $data, ?int $timeout = null): bool
     {
-        return boolval($this->redis->set($key, $data, $timeout));
+        if (is_null($timeout)) {
+            return (false !== $this->redis->set($key, $data));
+        } else {
+            return (false !== $this->redis->set($key, $data, $timeout));
+        }
     }
 
     public function remove(string $key): bool
@@ -46,6 +49,10 @@ class RedisStorage implements ITarget
         return $this->del($key);
     }
 
+    /**
+     * @param string $key
+     * @return Traversable<string>
+     */
     public function lookup(string $key): Traversable
     {
         $iterator = NULL; // initialize iterator

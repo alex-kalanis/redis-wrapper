@@ -17,6 +17,6 @@ abstract class AOperations
     protected function parsePath(string $path): string
     {
         $into = parse_url($path, PHP_URL_PATH);
-        return $into;
+        return strval($into);
     }
 }

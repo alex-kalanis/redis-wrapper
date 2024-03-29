@@ -13,23 +13,29 @@ use Predis;
  */
 trait TPredis
 {
-    protected $redis = null;
+    protected Predis\Client $redis;
 
     public function __construct(Predis\Client $redis)
     {
         $this->redis = $redis;
     }
 
-    protected function scan(&$iterator, string $mask)
+    /**
+     * @param mixed $iterator
+     * @param string $mask
+     * @return string[]
+     */
+    protected function scan(&$iterator, string $mask): array
     {
-        return $this->redis->scan($iterator, [
+        $keys = $this->redis->scan($iterator, [
             'match' => $mask,
         ]);
+        return array_map('strval', $keys);
     }
 
-    protected function get(string $key): string
+    protected function get(string $key): ?string
     {
-        return (string)$this->redis->get($key);
+        return $this->redis->get($key);
     }
 
     protected function append(string $key, string $value): int
@@ -39,6 +45,6 @@ trait TPredis
 
     protected function del(string $key): bool
     {
-        return (bool)$this->redis->del($key);
+        return boolval($this->redis->del($key));
     }
 }

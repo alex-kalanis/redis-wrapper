@@ -17,8 +17,7 @@ class PredisStorage implements ITarget
 {
     use TPredis;
 
-    /** @var int */
-    protected $timeout = 0;
+    protected int $timeout = 0;
 
     public function check(string $key): bool
     {
@@ -32,10 +31,10 @@ class PredisStorage implements ITarget
 
     public function load(string $key): string
     {
-        return $this->get($key);
+        return strval($this->get($key));
     }
 
-    public function save(string $key, $data, ?int $timeout = null): bool
+    public function save(string $key, string $data, ?int $timeout = null): bool
     {
         if (is_null($timeout)) {
             return (false !== $this->redis->set($key, $data));
@@ -49,6 +48,10 @@ class PredisStorage implements ITarget
         return $this->del($key);
     }
 
+    /**
+     * @param string $key
+     * @return Traversable<mixed, string>
+     */
     public function lookup(string $key): Traversable
     {
         return new \Predis\Collection\Iterator\Keyspace($this->redis, $key . '*');

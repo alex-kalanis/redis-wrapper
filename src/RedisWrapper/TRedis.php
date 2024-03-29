@@ -13,21 +13,28 @@ use Redis;
  */
 trait TRedis
 {
-    protected $redis = null;
+    protected Redis $redis;
 
     public function __construct(Redis $redis)
     {
         $this->redis = $redis;
     }
 
-    protected function scan(&$iterator, string $mask)
+    /**
+     * @param int|null $iterator
+     * @param string $mask
+     * @return string[]
+     */
+    protected function scan(&$iterator, string $mask): array
     {
-        return $this->redis->scan($iterator, $mask);
+        $keys = $this->redis->scan($iterator, $mask);
+        return false === $keys ? [] : array_map('strval', $keys);
     }
 
-    protected function get(string $key): string
+    protected function get(string $key): ?string
     {
-        return (string)$this->redis->get($key);
+        $data = $this->redis->get($key);
+        return false !== $data ? strval($data) : null;
     }
 
     protected function append(string $key, string $value): int
@@ -37,6 +44,6 @@ trait TRedis
 
     protected function del(string $key): bool
     {
-        return (bool)$this->redis->del($key);
+        return boolval($this->redis->del($key));
     }
 }

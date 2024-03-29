@@ -1,0 +1,19 @@
+parameters:
+	level: 9
+	paths:
+		- 'src'
+#	scanFiles:
+#		- 'php-tests/CommonTestClass.php'
+	excludePaths:
+		- 'php-tests/_autoload.php'
+		- 'php-tests/_bootstrap.php'
+#		- 'php-tests/CommonTestClass.php'
+	bootstrapFiles:
+		- 'php-tests/_autoload.php'
+	ignoreErrors:
+		# intval, strval, boolval
+#		- '#Parameter \#1 \$va[rl]u?e? of function [sib][tno][rto]l?val expects#'
+		# when the redis key array is empty
+		-
+			path: 'src/Shared/Keys.php'
+			message: '#Unreachable statement - code above always terminates.#'

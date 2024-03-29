@@ -10,8 +10,9 @@ namespace kalanis\RedisWrapper\Shared;
  */
 abstract class Keys extends AOperations
 {
-    protected $path = '';
-    protected $seek = 0;
+    protected string $path = '';
+    protected int $seek = 0;
+    /** @var int|null */
     protected $iterator = null;
 
     public function close(): bool
@@ -27,7 +28,7 @@ abstract class Keys extends AOperations
     }
 
     /**
-     * @return string|bool
+     * @return string|false
      */
     public function read()
     {
@@ -89,14 +90,15 @@ abstract class Keys extends AOperations
     /**
      * @param string $path
      * @param int $flags
-     * @return array
+     * @return array<int, string|int>
      * @throws RedisException
      */
     public function stats(string $path, int $flags): array
     {
         while ($fileInfo = $this->searchKeys($this->parsePath($path))) {
             // seek into the name...
-            if ($content = $this->get($fileInfo)) {
+            $content = $this->get(strval($fileInfo->current()));
+            if (!empty($content)) {
                 return [
                     0 => 0,
                     1 => 0,
@@ -119,7 +121,7 @@ abstract class Keys extends AOperations
 
     /**
      * @param string $path
-     * @return \Iterator
+     * @return \Iterator<string>
      */
     protected function searchKeys(string $path): \Iterator
     {
@@ -134,15 +136,15 @@ abstract class Keys extends AOperations
     /**
      * Get value from Redis instance
      * @param string $key
-     * @return string
+     * @return string|null
      */
-    abstract protected function get(string $key): string;
+    abstract protected function get(string $key): ?string;
 
     /**
      * Scan Redis dataset for masked files
-     * @param mixed $iterator
+     * @param int|null $iterator
      * @param string $mask
-     * @return array
+     * @return string[]
      */
-    abstract protected function scan(&$iterator, string $mask);
+    abstract protected function scan(&$iterator, string $mask): array;
 }

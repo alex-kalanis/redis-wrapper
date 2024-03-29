@@ -13,18 +13,16 @@ class AWrapper
     /** @var resource */
     public $context;
 
-    /** @var Keys|null */
-    protected $keyQuery = null;
-    /** @var Data|null */
-    protected $fileQuery = null;
-    protected $showErrors = true;
+    protected ?Keys $keyQuery = null;
+    protected ?Data $fileQuery = null;
+    protected bool $showErrors = true;
 
     public function dir_closedir(): bool
     {
         try {
-            return $this->keyQuery->close();
+            return $this->getKeyQuery()->close();
         } catch (RedisException $ex) {
-            trigger_error($ex->getMessage(), E_USER_ERROR);
+            $this->errorReport($ex);
             return false;
         }
     }
@@ -32,9 +30,9 @@ class AWrapper
     public function dir_opendir(string $path, int $options): bool
     {
         try {
-            return $this->keyQuery->open($path, $options);
+            return $this->getKeyQuery()->open($path, $options);
         } catch (RedisException $ex) {
-            trigger_error($ex->getMessage(), E_USER_ERROR);
+            $this->errorReport($ex);
             return false;
         }
     }
@@ -45,9 +43,9 @@ class AWrapper
     public function dir_readdir()
     {
         try {
-            return $this->keyQuery->read();
+            return $this->getKeyQuery()->read();
         } catch (RedisException $ex) {
-            trigger_error($ex->getMessage(), E_USER_ERROR);
+            $this->errorReport($ex);
             return false;
         }
     }
@@ -55,9 +53,9 @@ class AWrapper
     public function dir_rewinddir(): bool
     {
         try {
-            return $this->keyQuery->rewind();
+            return $this->getKeyQuery()->rewind();
         } catch (RedisException $ex) {
-            trigger_error($ex->getMessage(), E_USER_ERROR);
+            $this->errorReport($ex);
             return false;
         }
     }
@@ -71,9 +69,9 @@ class AWrapper
     public function mkdir(string $path, int $mode, int $options): bool
     {
         try {
-            return $this->keyQuery->make($path, $mode, $options);
+            return $this->getKeyQuery()->make($path, $mode, $options);
         } catch (RedisException $ex) {
-            trigger_error($ex->getMessage(), E_USER_ERROR);
+            $this->errorReport($ex);
             return false;
         }
     }
@@ -86,9 +84,9 @@ class AWrapper
     public function rename(string $path_from, string $path_to): bool
     {
         try {
-            return $this->keyQuery->rename($path_from, $path_to);
+            return $this->getKeyQuery()->rename($path_from, $path_to);
         } catch (RedisException $ex) {
-            trigger_error($ex->getMessage(), E_USER_ERROR);
+            $this->errorReport($ex);
             return false;
         }
     }
@@ -101,9 +99,9 @@ class AWrapper
     public function rmdir(string $path, int $options): bool
     {
         try {
-            return $this->keyQuery->remove($path, $options);
+            return $this->getKeyQuery()->remove($path, $options);
         } catch (RedisException $ex) {
-            trigger_error($ex->getMessage(), E_USER_ERROR);
+            $this->errorReport($ex);
             return false;
         }
     }
@@ -115,7 +113,7 @@ class AWrapper
     public function stream_cast(int $cast_as)
     {
         try {
-            return $this->fileQuery->stream_cast($cast_as);
+            return $this->getFileQuery()->stream_cast($cast_as);
         } catch (RedisException $ex) {
             $this->errorReport($ex);
             return false;
@@ -125,7 +123,7 @@ class AWrapper
     public function stream_close(): void
     {
         try {
-            $this->fileQuery->stream_close();
+            $this->getFileQuery()->stream_close();
         } catch (RedisException $ex) {
             $this->errorReport($ex);
         }
@@ -134,7 +132,7 @@ class AWrapper
     public function stream_eof(): bool
     {
         try {
-            return $this->fileQuery->stream_eof();
+            return $this->getFileQuery()->stream_eof();
         } catch (RedisException $ex) {
             $this->errorReport($ex);
             return true;
@@ -144,7 +142,7 @@ class AWrapper
     public function stream_flush(): bool
     {
         try {
-            return $this->fileQuery->stream_flush();
+            return $this->getFileQuery()->stream_flush();
         } catch (RedisException $ex) {
             $this->errorReport($ex);
             return false;
@@ -154,17 +152,23 @@ class AWrapper
     public function stream_lock(int $operation): bool
     {
         try {
-            return $this->fileQuery->stream_lock($operation);
+            return $this->getFileQuery()->stream_lock($operation);
         } catch (RedisException $ex) {
             $this->errorReport($ex);
             return false;
         }
     }
 
+    /**
+     * @param string $path
+     * @param int $option
+     * @param mixed $var
+     * @return bool
+     */
     public function stream_metadata(string $path, int $option, $var): bool
     {
         try {
-            return $this->fileQuery->stream_metadata($path, $option, $var);
+            return $this->getFileQuery()->stream_metadata($path, $option, $var);
         } catch (RedisException $ex) {
             $this->errorReport($ex);
             return false;
@@ -175,17 +179,21 @@ class AWrapper
     {
         try {
             $this->canReport($options);
-            return $this->fileQuery->stream_open($this->keyQuery, $path, $mode);
+            return $this->getFileQuery()->stream_open($this->getKeyQuery(), $path, $mode);
         } catch (RedisException $ex) {
             $this->errorReport($ex);
             return false;
         }
     }
 
-    public function stream_read(int $count): string
+    /**
+     * @param int $count
+     * @return bool|string
+     */
+    public function stream_read(int $count)
     {
         try {
-            return $this->fileQuery->stream_read($count);
+            return $this->getFileQuery()->stream_read($count);
         } catch (RedisException $ex) {
             $this->errorReport($ex);
             return false;
@@ -195,7 +203,7 @@ class AWrapper
     public function stream_seek(int $offset, int $whence = SEEK_SET): bool
     {
         try {
-            return $this->fileQuery->stream_seek($offset, $whence);
+            return $this->getFileQuery()->stream_seek($offset, $whence);
         } catch (RedisException $ex) {
             $this->errorReport($ex);
             return false;
@@ -205,17 +213,20 @@ class AWrapper
     public function stream_set_option(int $option, int $arg1, int $arg2): bool
     {
         try {
-            return $this->fileQuery->stream_set_option($option, $arg1, $arg2);
+            return $this->getFileQuery()->stream_set_option($option, $arg1, $arg2);
         } catch (RedisException $ex) {
             $this->errorReport($ex);
             return false;
         }
     }
 
+    /**
+     * @return array<int, string|int>
+     */
     public function stream_stat(): array
     {
         try {
-            return $this->fileQuery->stream_stat($this->keyQuery);
+            return $this->getFileQuery()->stream_stat($this->getKeyQuery());
         } catch (RedisException $ex) {
             $this->errorReport($ex);
             return [];
@@ -225,7 +236,7 @@ class AWrapper
     public function stream_tell(): int
     {
         try {
-            return $this->fileQuery->stream_tell();
+            return $this->getFileQuery()->stream_tell();
         } catch (RedisException $ex) {
             $this->errorReport($ex);
             return -1;
@@ -235,7 +246,7 @@ class AWrapper
     public function stream_truncate(int $new_size): bool
     {
         try {
-            return $this->fileQuery->stream_truncate($new_size);
+            return $this->getFileQuery()->stream_truncate($new_size);
         } catch (RedisException $ex) {
             $this->errorReport($ex);
             return false;
@@ -245,7 +256,7 @@ class AWrapper
     public function stream_write(string $data): int
     {
         try {
-            return $this->fileQuery->stream_write($data);
+            return $this->getFileQuery()->stream_write($data);
         } catch (RedisException $ex) {
             $this->errorReport($ex);
             return 0;
@@ -259,16 +270,19 @@ class AWrapper
     public function unlink(string $path): bool
     {
         try {
-            return $this->fileQuery->unlink($path);
+            return $this->getFileQuery()->unlink($path);
         } catch (RedisException $ex) {
-            trigger_error($ex->getMessage(), E_USER_ERROR);
+            $this->errorReport($ex);
             return false;
         }
     }
 
+    /**
+     * @param int $opts
+     */
     protected function canReport($opts): void
     {
-        $this->showErrors = ($opts & STREAM_REPORT_ERRORS);
+        $this->showErrors = boolval($opts & STREAM_REPORT_ERRORS);
     }
 
     /**
@@ -281,10 +295,15 @@ class AWrapper
         }
     }
 
+    /**
+     * @param string $path
+     * @param int $flags
+     * @return array<int, string|int>
+     */
     public function url_stat(string $path, int $flags): array
     {
         try {
-            return $this->keyQuery->stats($path, $flags);
+            return $this->getKeyQuery()->stats($path, $flags);
         } catch (RedisException $ex) {
             if ($flags & ~STREAM_URL_STAT_QUIET) {
                 trigger_error($ex->getMessage(), E_USER_ERROR);
@@ -305,5 +324,29 @@ class AWrapper
                 12 => -1,
             ];
         }
+    }
+
+    /**
+     * @throws RedisException
+     * @return Keys
+     */
+    protected function getKeyQuery(): Keys
+    {
+        if (empty($this->keyQuery)) {
+            throw new RedisException('Set Key query variable first!');
+        }
+        return $this->keyQuery;
+    }
+
+    /**
+     * @throws RedisException
+     * @return Data
+     */
+    protected function getFileQuery(): Data
+    {
+        if (empty($this->fileQuery)) {
+            throw new RedisException('Set File query variable first!');
+        }
+        return $this->fileQuery;
     }
 }

@@ -10,10 +10,10 @@ namespace kalanis\RedisWrapper\Shared;
  */
 abstract class Data extends AOperations
 {
-    protected $path = '';
-    protected $size = 0;
-    protected $position = 0;
-    protected $writeMode = false; // read - false, write - true
+    protected string $path = '';
+    protected int $size = 0;
+    protected int $position = 0;
+    protected bool $writeMode = false; // read - false, write - true
 
     /**
      * @param int $cast_as
@@ -43,6 +43,12 @@ abstract class Data extends AOperations
         return false;
     }
 
+    /**
+     * @param string $path
+     * @param int $option
+     * @param mixed $var
+     * @return bool
+     */
     public function stream_metadata(string $path, int $option, $var): bool
     {
         return false;
@@ -62,7 +68,7 @@ abstract class Data extends AOperations
 
         if (!$this->writeMode) {
             $stat = $this->stream_stat($libDir);
-            $this->size = $stat[7]; // stats - max available size
+            $this->size = intval($stat[7]); // stats - max available size
         }
         $this->position = 0;
         return true;
@@ -91,7 +97,7 @@ abstract class Data extends AOperations
      */
     public function stream_read(int $count): string
     {
-        $data = $this->get($this->parsePath($this->path));
+        $data = strval($this->get($this->parsePath($this->path)));
         $sub = empty($count) ? substr($data, $this->position) : substr($data, $this->position, $count);
         $this->position += strlen($sub);
         return $sub;
@@ -107,7 +113,6 @@ abstract class Data extends AOperations
                 } else {
                     return false;
                 }
-                break;
 
             case SEEK_CUR:
                 if ($offset >= 0) {
@@ -116,7 +121,6 @@ abstract class Data extends AOperations
                 } else {
                     return false;
                 }
-                break;
 
             case SEEK_END:
                 if ($this->size + $offset >= 0) {
@@ -125,7 +129,6 @@ abstract class Data extends AOperations
                 } else {
                     return false;
                 }
-                break;
 
             default:
                 return false;
@@ -139,7 +142,7 @@ abstract class Data extends AOperations
 
     /**
      * @param Keys $libDir
-     * @return array
+     * @return array<int, string|int>
      * @throws RedisException
      */
     public function stream_stat(Keys $libDir): array
@@ -167,7 +170,7 @@ abstract class Data extends AOperations
         if (!$this->writeMode) {
             throw new RedisException('File not open for writing!');
         }
-        $currentInData = (string)$this->get($this->parsePath($this->path));
+        $currentInData = strval($this->get($this->parsePath($this->path)));
         $currentDataLen = strlen($currentInData);
         $dataLen = strlen($data);
         if ($currentDataLen != $this->position) {
@@ -183,15 +186,15 @@ abstract class Data extends AOperations
      */
     public function unlink(string $path): bool
     {
-        return (bool)$this->del($this->parsePath($path));
+        return boolval($this->del($this->parsePath($path)));
     }
 
     /**
      * Get content in key; empty if non-existent
      * @param string $key
-     * @return string
+     * @return string|null
      */
-    abstract protected function get(string $key): string;
+    abstract protected function get(string $key): ?string;
 
     /**
      * Append content into key
