@@ -30,7 +30,7 @@
   },
   "suggest": {
     "ext-redis": "Direct php library for connection to your Redis server",
-    "predis/predis": "External library for connecting your Redis cluster",
+    "predis/predis": "External library for connecting your Redis cluster"
   },
   "scripts": {
   },
