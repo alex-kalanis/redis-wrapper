@@ -11,10 +11,10 @@
   "license": "BSD-3-Clause",
   "type": "library",
   "require": {
-    "alex-kalanis/kw_storage": ">=5 <6",
     "php": ">=7.4.0"
   },
   "require-dev": {
+    "alex-kalanis/kw_storage": ">=5 <6",
     "predis/predis": "^2.2",
     "ext-redis": "*",
     "shipmonk/composer-dependency-analyser": "^1.4",
@@ -30,7 +30,8 @@
   },
   "suggest": {
     "ext-redis": "Direct php library for connection to your Redis server",
-    "predis/predis": "External library for connecting your Redis cluster"
+    "predis/predis": "External library for connecting your Redis cluster",
+    "alex-kalanis/kw_storage": "Universal storage libraries"
   },
   "scripts": {
   },
